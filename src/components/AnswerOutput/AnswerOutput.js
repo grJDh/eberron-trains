@@ -11,9 +11,9 @@ const AnswerOutput = props => {
 
   const speed = 30;
 
-  const time = miles / speed;
+  const time = (miles / speed) + path.length - 2;
   const days = Math.trunc(time / 24);
-  const hours = Math.trunc(time);
+  const hours = Math.trunc(time) - (days * 24);
   const minutes = Math.ceil((time - Math.trunc(time)) * 60);
 
   const costERLW = miles * 0.5;
@@ -48,38 +48,40 @@ const AnswerOutput = props => {
   
   return (
     <div className='answer'>
-      <div className='answer-block'>Distance: {miles} miles</div>
-      <div className='answer-block'>Travel time: {days ? days : ''} {hours}:{minutes}</div>
+      <div className='answer-block'>Distance: <span className='answer-cost'>{miles} miles</span></div>
+      <div className='answer-block'>Travel time: <span className='answer-cost'>{days ? days : ''}:{hours}:{minutes}</span> (with 1 hour lay over at each station)</div>
 
       <div className='answer-block'>Cost: 
       <ul>
         <li>
-          ERLW(5E) - per mile: {Math.trunc(costERLW) + 'gp '}
-          {((costERLW % 1).toFixed(1) !== "0.0") ? (costERLW % 1).toFixed(1) * 10 + 'sp' : ''}
+          ERLW(5E) - per mile: <span className='answer-cost'>{Math.trunc(costERLW) + 'gp '}
+          {((costERLW % 1).toFixed(1) !== "0.0") ? (costERLW % 1).toFixed(1) * 10 + 'sp' : ''}</span>
         </li>
         <li>WGtE(5E) - per day:
           <ul>
             <li>
-              Flat: {costWGtEFlat[0] ? costWGtEFlat[0] + 'gp ' : ''} {costWGtEFlat[1] ? costWGtEFlat[1] + 'sp ' : ''}
-              {costWGtEFlat[2] ? costWGtEFlat[2] + 'cp ' : ''}
+            <span className='answer-category'>Flat: </span><span className='answer-cost'>{costWGtEFlat[0] ? costWGtEFlat[0] + 'gp ' : ''} {costWGtEFlat[1] ? costWGtEFlat[1] + 'sp ' : ''}
+              {costWGtEFlat[2] ? costWGtEFlat[2] + 'cp ' : ''}</span>
             </li>
             <li>
-              Luxury: {costWGtELuxury[0] ? costWGtELuxury[0] + 'gp ' : ''} {costWGtELuxury[1] ? costWGtELuxury[1] + 'sp ' : ''}
-              {costWGtELuxury[2] ? costWGtELuxury[2] + 'cp ' : ''}
+            <span className='answer-category'>Luxury: </span><span className='answer-cost'>{costWGtELuxury[0] ? costWGtELuxury[0] + 'gp ' : ''} {costWGtELuxury[1] ? costWGtELuxury[1] + 'sp ' : ''}
+              {costWGtELuxury[2] ? costWGtELuxury[2] + 'cp ' : ''}</span>
             </li>
           </ul>
         </li>
         <li>ECG(4E) - per mile:
           <ul>
             <li>
-              First Class: {costERLWFirstClass[0] ? costERLWFirstClass[0] + 'gp ' : ''} {costERLWFirstClass[1] ? costERLWFirstClass[1] + 'sp ' : ''}
-              {costERLWFirstClass[2] ? costERLWFirstClass[2] + 'cp ' : ''}
+              <span className='answer-category'>First Class: </span><span className='answer-cost'>{costERLWFirstClass[0] ? costERLWFirstClass[0] + 'gp ' : ''} {costERLWFirstClass[1] ? costERLWFirstClass[1] + 'sp ' : ''}
+              {costERLWFirstClass[2] ? costERLWFirstClass[2] + 'cp ' : ''}</span>
             </li>
-            <li>Standard: {costERLWStandard[0] ? costERLWStandard[0] + 'gp ' : ''} {costERLWStandard[1] ? costERLWStandard[1] + 'sp ' : ''}
-              {costERLWStandard[2] ? costERLWStandard[2] + 'cp ' : ''}
+            <li>
+              <span className='answer-category'>Standard: </span><span className='answer-cost'>{costERLWStandard[0] ? costERLWStandard[0] + 'gp ' : ''} {costERLWStandard[1] ? costERLWStandard[1] + 'sp ' : ''}
+              {costERLWStandard[2] ? costERLWStandard[2] + 'cp ' : ''}</span>
             </li>
-            <li>Steerage: {costERLWSteerage[0] ? costERLWSteerage[0] + 'gp ' : ''} {costERLWSteerage[1] ? costERLWSteerage[1] + 'sp ' : ''}
-              {costERLWSteerage[2] ? costERLWSteerage[2] + 'cp ' : ''}
+            <li>
+              <span className='answer-category'>Steerage: </span><span className='answer-cost'>{costERLWSteerage[0] ? costERLWSteerage[0] + 'gp ' : ''} {costERLWSteerage[1] ? costERLWSteerage[1] + 'sp ' : ''}
+              {costERLWSteerage[2] ? costERLWSteerage[2] + 'cp ' : ''}</span>
             </li>
           </ul>
         </li>
@@ -88,9 +90,7 @@ const AnswerOutput = props => {
 
       <div className='answer-block'>Stations: 
       <ul>
-        {path.map(item => {
-          if (item) return <li>{item}</li>
-        })}
+        {path.map(item => <li>{item}</li>)}
       </ul>
       </div>
     </div>

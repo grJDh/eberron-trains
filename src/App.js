@@ -12,7 +12,7 @@ import { mainSelector, setMiles, setPath } from './slices/main';
 const App = () => {
 
   const dispatch = useDispatch();
-  const { startStation, finishStation, rails } = useSelector(mainSelector);
+  const { startStation, finishStation, rails, miles } = useSelector(mainSelector);
 
   const stations = Object.keys(rails);
 
@@ -73,8 +73,10 @@ const App = () => {
     let optimalPath = [finish];
     let parent = path[finish];
     for (let i in path) {
-      optimalPath.push(parent);
-      parent = path[parent];
+      if (parent) {
+        optimalPath.push(parent);
+        parent = path[parent];
+      }
     }
     optimalPath.reverse();
 
@@ -97,10 +99,25 @@ const App = () => {
     if (stations.includes(startStation) && stations.includes(finishStation)) letsTravel();
   }, [startStation, finishStation]);
 
+  // const addStation = (first, second, dist) => {
+  //   if (!rails2[first]) {
+  //     rails2 = {...rails2, [first]: {[second]: dist}}
+  //   } else {
+  //     rails2 = {...rails2, [first]: {...rails2[first], [second]: dist}}
+  //   }
+
+  //   if (!rails2[second]) {
+  //     rails2 = {...rails2, [second]: {[first]: dist}}
+  //   } else {
+  //     rails2 = {...rails2, [second]: {...rails2[second], [first]: dist}}
+  //   }
+  //   console.log(rails2);
+  // }
+
   return (
     <main>
       <Form />
-      <AnswerOutput />
+      {miles ? <AnswerOutput /> : ''}
       {/* <Settings /> */}
     </main>
   );

@@ -21,6 +21,25 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+span {
+  color: black;
+  font-size: 1.5rem;
+
+  &.answer-cost {
+    font-weight: bold;
+  }
+
+  &.answer-category {
+    font-style: italic;
+  }
+}
+
+
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
 $breakpoint-answer: 480px;
 @media (min-width: $breakpoint-answer) {
   .answer-block {
