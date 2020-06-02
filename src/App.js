@@ -1,25 +1,108 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-function App() {
+import Form from './containers/SearchForm/SearchForm';
+import AnswerOutput from './components/AnswerOutput/AnswerOutput';
+import Settings from './components/Settings/Settings';
+
+import './App.scss';
+
+import { mainSelector, setMiles, setPath } from './slices/main';
+
+const App = () => {
+
+  const dispatch = useDispatch();
+  const { startStation, finishStation, rails } = useSelector(mainSelector);
+
+  const stations = Object.keys(rails);
+
+  const findLowestCostNode = (costs, processed) => {
+    const knownNodes = Object.keys(costs)
+    
+    const lowestCostNode = knownNodes.reduce((lowest, node) => {
+        if (lowest === null && !processed.includes(node)) {
+          lowest = node;
+        }
+        if (costs[node] < costs[lowest] && !processed.includes(node)) {
+          lowest = node;
+        }
+        return lowest;
+    }, null);
+  
+    return lowestCostNode
+  };
+
+  const findingPath = (start, finish) => {
+    let weights = {...rails[start], [start]: 0};
+    let visited = [];
+
+    for (let i = 0; i < stations.length; i++) {
+      if (!Object.keys(weights).includes(stations[i])) {
+        weights = {...weights, [stations[i]]: Infinity};
+      }
+    }
+
+    //let path = {[finish]: null};
+    let path = {};
+    for (let child in rails[start]) {
+      path[child] = start;
+    }
+
+    let node = findLowestCostNode(weights, visited);
+
+    while (node) {
+      let costToReachNode = weights[node];
+      let childrenOfNode = rails[node];
+    
+      for (let child in childrenOfNode) {
+        let costFromNodetoChild = childrenOfNode[child]
+        let costToChild = costToReachNode + costFromNodetoChild;
+    
+        if (!weights[child] || weights[child] > costToChild) {
+          weights[child] = costToChild;
+          path[child] = node;
+        }
+      }
+    
+      visited.push(node);
+  
+      node = findLowestCostNode(weights, visited);
+    }
+
+    delete path[start];
+    let optimalPath = [finish];
+    let parent = path[finish];
+    for (let i in path) {
+      optimalPath.push(parent);
+      parent = path[parent];
+    }
+    optimalPath.reverse();
+
+    return [weights[finish], optimalPath]
+
+  }
+
+  const letsTravel = () => {
+    if (startStation === finishStation) {
+      dispatch(setMiles(0));
+      dispatch(setPath([]));
+    } else {
+      const answer = findingPath(startStation, finishStation);
+      dispatch(setMiles(answer[0]));
+      dispatch(setPath(answer[1]));
+    }
+  }
+
+  useEffect(() => {
+    if (stations.includes(startStation) && stations.includes(finishStation)) letsTravel();
+  }, [startStation, finishStation]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <Form />
+      <AnswerOutput />
+      {/* <Settings /> */}
+    </main>
   );
 }
 

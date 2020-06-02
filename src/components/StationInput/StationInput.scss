@@ -1,0 +1,25 @@
+.station-block {
+  width: 100%;
+  margin: 10px 25px;
+  
+}
+
+.station-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+
+  border: 1px solid black;
+  border-radius: 4px;
+
+  font-size: 1.5rem;
+
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+$breakpoint-station: 480px;
+@media (min-width: $breakpoint-station) {
+  .station-block {
+    width: 440px;
+  }
+}

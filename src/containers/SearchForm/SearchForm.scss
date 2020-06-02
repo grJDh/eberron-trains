@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+span {
+  font-size: 2rem;
+  color: white;
+}

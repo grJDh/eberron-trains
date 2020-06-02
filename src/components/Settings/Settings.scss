@@ -1,0 +1,19 @@
+.settings {
+  width: 90%;
+  padding: 12px 20px;
+  margin: 10px 25px;
+
+  border: 1px solid black;
+  border-radius: 4px;
+
+  font-size: 1.5rem;
+
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+$breakpoint-answer: 870px;
+@media (min-width: $breakpoint-answer) {
+  .settings {
+    width: 1000px;
+  }
+}
