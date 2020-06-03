@@ -13,7 +13,7 @@ const capitalize = text => {
   }
 }
 
-export const initialState = {
+const initialState = {
   rails: {
     "Rekkenmark": {
       "Korth": 112,

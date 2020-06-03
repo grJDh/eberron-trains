@@ -9,7 +9,7 @@ const StationInput = props => {
        <input onChange={props.onChangeFunc} className='station-input' type="text" list="cities" placeholder={props.placeholder} />
 
         <datalist id="cities">
-          {Object.keys(props.rails).map((item, key) =>
+          {Object.keys(props.rails).sort().map((item, key) =>
             <option key={key} value={item} />
           )}
         </datalist>

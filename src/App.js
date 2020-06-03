@@ -118,7 +118,7 @@ const App = () => {
     <main>
       <Form />
       {miles ? <AnswerOutput /> : ''}
-      {/* <Settings /> */}
+      <Settings />
     </main>
   );
 }

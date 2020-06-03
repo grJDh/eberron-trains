@@ -1,5 +1,5 @@
 .settings {
-  width: 90%;
+  width: 100%;
   padding: 12px 20px;
   margin: 10px 25px;
 
@@ -9,11 +9,28 @@
   font-size: 1.5rem;
 
   background-color: rgba(255, 255, 255, 0.8);
+
+  grid-area: settings;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-$breakpoint-answer: 870px;
-@media (min-width: $breakpoint-answer) {
+.settings-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  select {
+    margin: 5px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 870px) {
   .settings {
-    width: 1000px;
+    width: 930px;
   }
 }

@@ -1,15 +1,24 @@
 .answer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  
-  justify-content: center;
-  align-items: center;
+  grid-area: answer;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.4fr 1.6fr;
+  gap: 1px 1px;
+  grid-template-areas: "answer-distance" "answer-time" "answer-cost" "answer-path";
 }
 
+.answer-distance { grid-area: answer-distance; }
+
+.answer-time { grid-area: answer-time; }
+
+.answer-cost { grid-area: answer-cost; }
+
+.answer-path { grid-area: answer-path; }
+
 .answer-block {
-  width: 100%;
+  max-width: 100%;
+  
   padding: 12px 20px;
   margin: 10px 25px;
 
@@ -21,28 +30,31 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+@media (min-width: 980px) {
+  .answer-block {
+    max-width: 400px;
+  }
+
+  .answer {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "answer-distance answer-time" "answer-cost answer-path";
+  }
+}
+
 span {
   color: black;
   font-size: 1.5rem;
 
-  &.answer-cost {
+  &.answer-cost-bold {
     font-weight: bold;
   }
 
-  &.answer-category {
+  &.answer-category-italic {
     font-style: italic;
   }
 }
 
-
 ul {
   margin: 0;
   padding-left: 20px;
-}
-
-$breakpoint-answer: 480px;
-@media (min-width: $breakpoint-answer) {
-  .answer-block {
-    width: 400px;
-  }
 }

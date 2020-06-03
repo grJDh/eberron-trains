@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux';
 import './AnswerOutput.scss';
 
 import { mainSelector } from '../../slices/main';
+import { settingsSelector } from '../../slices/settings';
 
 const AnswerOutput = props => {
 
   const { miles, path } = useSelector(mainSelector);
+  const { costMode } = useSelector(settingsSelector);
 
   const speed = 30;
 
@@ -18,77 +20,102 @@ const AnswerOutput = props => {
 
   const costERLW = miles * 0.5;
 
-  const costWGtE = miles / speed / 24;
-  const costWGtEFlat = [
-    Math.trunc(costWGtE),
-    Math.trunc(costWGtE % 1 * 10),
-    Math.trunc(costWGtE % 1 * 10 % 1 * 10)
-  ]
-  const costWGtELuxury = [
-    Math.trunc(costWGtE*4),
-    Math.trunc(costWGtE*4 % 1 * 10),
-    Math.trunc(costWGtE*4 % 1 * 10 % 1 * 10)
-  ]
+  const renderCostERLW = () => {
+    if (costMode === '0' || costMode === '1') return (
+      <li>
+        ERLW(5E) - per mile: <span className='answer-cost-bold '>{Math.trunc(costERLW) + 'gp '}
+        {((costERLW % 1).toFixed(1) !== "0.0") ? (costERLW % 1).toFixed(1) * 10 + 'sp' : ''}</span>
+      </li>
+    )
+  }
 
-  const costERLWSteerage = [
-    Math.trunc(costERLW*0.06),
-    Math.trunc(costERLW*0.06 % 1 * 10),
-    Math.trunc(costERLW*0.06 % 1 * 10 % 1 * 10)
-  ]
-  const costERLWStandard = [
-    Math.trunc(costERLW*0.4),
-    Math.trunc(costERLW*0.4 % 1 * 10),
-    Math.trunc(costERLW*0.4 % 1 * 10 % 1 * 10)
-  ]
-  const costERLWFirstClass = [
-    Math.trunc(costERLW),
-    Math.trunc(costERLW % 1 * 10),
-    Math.trunc(costERLW % 1 * 10 % 1 * 10)
-  ]
-  
-  return (
-    <div className='answer'>
-      <div className='answer-block'>Distance: <span className='answer-cost'>{miles} miles</span></div>
-      <div className='answer-block'>Travel time: <span className='answer-cost'>{days ? days : ''}:{hours}:{minutes}</span> (with 1 hour lay over at each station)</div>
-
-      <div className='answer-block'>Cost: 
-      <ul>
-        <li>
-          ERLW(5E) - per mile: <span className='answer-cost'>{Math.trunc(costERLW) + 'gp '}
-          {((costERLW % 1).toFixed(1) !== "0.0") ? (costERLW % 1).toFixed(1) * 10 + 'sp' : ''}</span>
-        </li>
+  const renderCostWGtE = () => {
+    if (costMode === '0' || costMode === '2') {
+      const costWGtE = miles / speed / 24;
+      const costWGtEFlat = [
+        Math.trunc(costWGtE),
+        Math.trunc(costWGtE % 1 * 10),
+        Math.trunc(costWGtE % 1 * 10 % 1 * 10)
+      ]
+      const costWGtELuxury = [
+        Math.trunc(costWGtE*4),
+        Math.trunc(costWGtE*4 % 1 * 10),
+        Math.trunc(costWGtE*4 % 1 * 10 % 1 * 10)
+      ]
+      return (
         <li>WGtE(5E) - per day:
           <ul>
             <li>
-            <span className='answer-category'>Flat: </span><span className='answer-cost'>{costWGtEFlat[0] ? costWGtEFlat[0] + 'gp ' : ''} {costWGtEFlat[1] ? costWGtEFlat[1] + 'sp ' : ''}
+            <span className='answer-category-italic'>Flat: </span><span className='answer-cost-bold '>{costWGtEFlat[0] ? costWGtEFlat[0] + 'gp ' : ''} {costWGtEFlat[1] ? costWGtEFlat[1] + 'sp ' : ''}
               {costWGtEFlat[2] ? costWGtEFlat[2] + 'cp ' : ''}</span>
             </li>
             <li>
-            <span className='answer-category'>Luxury: </span><span className='answer-cost'>{costWGtELuxury[0] ? costWGtELuxury[0] + 'gp ' : ''} {costWGtELuxury[1] ? costWGtELuxury[1] + 'sp ' : ''}
+            <span className='answer-category-italic'>Luxury: </span><span className='answer-cost-bold '>{costWGtELuxury[0] ? costWGtELuxury[0] + 'gp ' : ''} {costWGtELuxury[1] ? costWGtELuxury[1] + 'sp ' : ''}
               {costWGtELuxury[2] ? costWGtELuxury[2] + 'cp ' : ''}</span>
             </li>
           </ul>
         </li>
+      )
+    }
+  }
+
+  const renderCostECG = () => {
+    if (costMode === '0' || costMode === '3') {
+      const costECGSteerage = [
+        Math.trunc(costERLW*0.06),
+        Math.trunc(costERLW*0.06 % 1 * 10),
+        Math.trunc(costERLW*0.06 % 1 * 10 % 1 * 10)
+      ]
+      const costECGStandard = [
+        Math.trunc(costERLW*0.4),
+        Math.trunc(costERLW*0.4 % 1 * 10),
+        Math.trunc(costERLW*0.4 % 1 * 10 % 1 * 10)
+      ]
+      const costECGFirstClass = [
+        Math.trunc(costERLW),
+        Math.trunc(costERLW % 1 * 10),
+        Math.trunc(costERLW % 1 * 10 % 1 * 10)
+      ]
+      return (
         <li>ECG(4E) - per mile:
           <ul>
             <li>
-              <span className='answer-category'>First Class: </span><span className='answer-cost'>{costERLWFirstClass[0] ? costERLWFirstClass[0] + 'gp ' : ''} {costERLWFirstClass[1] ? costERLWFirstClass[1] + 'sp ' : ''}
-              {costERLWFirstClass[2] ? costERLWFirstClass[2] + 'cp ' : ''}</span>
+              <span className='answer-category-italic'>First Class: </span><span className='answer-cost-bold '>{costECGFirstClass[0] ? costECGFirstClass[0] + 'gp ' : ''} {costECGFirstClass[1] ? costECGFirstClass[1] + 'sp ' : ''}
+              {costECGFirstClass[2] ? costECGFirstClass[2] + 'cp ' : ''}</span>
             </li>
             <li>
-              <span className='answer-category'>Standard: </span><span className='answer-cost'>{costERLWStandard[0] ? costERLWStandard[0] + 'gp ' : ''} {costERLWStandard[1] ? costERLWStandard[1] + 'sp ' : ''}
-              {costERLWStandard[2] ? costERLWStandard[2] + 'cp ' : ''}</span>
+              <span className='answer-category-italic'>Standard: </span><span className='answer-cost-bold '>{costECGStandard[0] ? costECGStandard[0] + 'gp ' : ''} {costECGStandard[1] ? costECGStandard[1] + 'sp ' : ''}
+              {costECGStandard[2] ? costECGStandard[2] + 'cp ' : ''}</span>
             </li>
             <li>
-              <span className='answer-category'>Steerage: </span><span className='answer-cost'>{costERLWSteerage[0] ? costERLWSteerage[0] + 'gp ' : ''} {costERLWSteerage[1] ? costERLWSteerage[1] + 'sp ' : ''}
-              {costERLWSteerage[2] ? costERLWSteerage[2] + 'cp ' : ''}</span>
+              <span className='answer-category-italic'>Steerage: </span><span className='answer-cost-bold '>{costECGSteerage[0] ? costECGSteerage[0] + 'gp ' : ''} {costECGSteerage[1] ? costECGSteerage[1] + 'sp ' : ''}
+              {costECGSteerage[2] ? costECGSteerage[2] + 'cp ' : ''}</span>
             </li>
           </ul>
         </li>
+      )
+    }
+  }
+  
+  return (
+    <div className='answer'>
+      <div className='answer-block answer-distance'>Distance: <span className='answer-cost-bold '>{miles} miles</span></div>
+      <div className='answer-block answer-time'>Travel time: <span className='answer-cost-bold '>
+      {days ? days+':' : ''}
+      {(hours / 10 < 1 && days) ? '0' + hours : hours}:
+      {minutes / 10 < 1 ? '0' + minutes : minutes} </span>
+      (with 1 hour layover at each station)
+      </div>
+
+      <div className='answer-block answer-cost'>Cost: 
+      <ul>
+        {renderCostERLW()}
+        {renderCostWGtE()}
+        {renderCostECG()}
       </ul>
       </div>
 
-      <div className='answer-block'>Stations: 
+      <div className='answer-block answer-path'>Stations: 
       <ul>
         {path.map(item => <li>{item}</li>)}
       </ul>

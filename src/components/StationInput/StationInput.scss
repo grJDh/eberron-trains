@@ -1,7 +1,6 @@
 .station-block {
   width: 100%;
   margin: 10px 25px;
-  
 }
 
 .station-input {
@@ -15,10 +14,13 @@
   font-size: 1.5rem;
 
   background-color: rgba(255, 255, 255, 0.8);
+
+  // &:after:first-child {
+
+  // }
 }
 
-$breakpoint-station: 480px;
-@media (min-width: $breakpoint-station) {
+@media (min-width: 480px) {
   .station-block {
     width: 440px;
   }

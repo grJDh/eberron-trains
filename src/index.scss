@@ -1,3 +1,14 @@
+html, body, #root {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+#root {
+  background-image: url('train-bg.jpg');
+  background-size: cover;
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.4);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,22 +21,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-html, body, #root {
-  height: auto;
-}
-
-#root {
-  background-image: url('train-bg.jpg');
-  background-size: cover;
-  /* background-position: bottom; */
-  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.4);
-}
-
-$breakpoint: 980px;
-@media (min-width: $breakpoint) {
-  html, body, #root {
-    height: 100vh;
-  }  
 }

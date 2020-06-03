@@ -1,8 +1,11 @@
 main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding-top: 50px;
 
-  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.5fr min-content 0.6fr;
+  gap: 10px 10px;
+  grid-template-areas: "form" "answer" "settings";
+
+  justify-items: center;
 }
