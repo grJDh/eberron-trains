@@ -1,20 +1,33 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Form from './containers/SearchForm/SearchForm';
+import SearchForm from './containers/SearchForm/SearchForm';
 import AnswerOutput from './components/AnswerOutput/AnswerOutput';
 import Settings from './components/Settings/Settings';
 
 import './App.scss';
 
 import { mainSelector, setMiles, setPath } from './slices/main';
+import { settingsSelector} from './slices/settings';
 
 const App = () => {
 
-  const dispatch = useDispatch();
-  const { startStation, finishStation, rails, miles } = useSelector(mainSelector);
+  const { distanceSource } = useSelector(settingsSelector);
 
-  const stations = Object.keys(rails);
+  const dispatch = useDispatch();
+  const { startStation, finishStation, miles, rails4E, rails3E } = useSelector(mainSelector);
+
+  const rails = () => {
+    switch (distanceSource) {
+      case '3E':
+        console.log(123)
+        return rails3E;
+      default:
+        return rails4E;
+    }
+  }
+
+  const stations = Object.keys(rails4E);
 
   const findLowestCostNode = (costs, processed) => {
     const knownNodes = Object.keys(costs)
@@ -33,7 +46,7 @@ const App = () => {
   };
 
   const findingPath = (start, finish) => {
-    let weights = {...rails[start], [start]: 0};
+    let weights = {...rails()[start], [start]: 0};
     let visited = [];
 
     for (let i = 0; i < stations.length; i++) {
@@ -42,9 +55,8 @@ const App = () => {
       }
     }
 
-    //let path = {[finish]: null};
     let path = {};
-    for (let child in rails[start]) {
+    for (let child in rails()[start]) {
       path[child] = start;
     }
 
@@ -52,7 +64,7 @@ const App = () => {
 
     while (node) {
       let costToReachNode = weights[node];
-      let childrenOfNode = rails[node];
+      let childrenOfNode = rails()[node];
     
       for (let child in childrenOfNode) {
         let costFromNodetoChild = childrenOfNode[child]
@@ -97,7 +109,7 @@ const App = () => {
 
   useEffect(() => {
     if (stations.includes(startStation) && stations.includes(finishStation)) letsTravel();
-  }, [startStation, finishStation]);
+  }, [startStation, finishStation, distanceSource]);
 
   // const addStation = (first, second, dist) => {
   //   if (!rails2[first]) {
@@ -116,7 +128,7 @@ const App = () => {
 
   return (
     <main>
-      <Form />
+      <SearchForm stations={stations}/>
       {miles ? <AnswerOutput /> : ''}
       <Settings />
     </main>

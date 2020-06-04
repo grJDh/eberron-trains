@@ -14,7 +14,7 @@ const capitalize = text => {
 }
 
 const initialState = {
-  rails: {
+  rails4E: {
     "Rekkenmark": {
       "Korth": 112,
       "Thaliost": 27
@@ -30,7 +30,7 @@ const initialState = {
     "Vedykar": {
       "Atur": 148,
       "Fort Zombie": 142,
-      "Vulyar": 104
+      "Vulyar": 147
     },
     "Fort Zombie": {
       "Vedykar": 142,
@@ -45,7 +45,7 @@ const initialState = {
     },
     "Vulyar": {
       "Irontown": 315,
-      "Vedykar": 104
+      "Vedykar": 147
     },
     "Thaliost": {
       "Rekkenmark": 27,
@@ -64,7 +64,8 @@ const initialState = {
     },
     "Hatheril": {
       "Wroat": 478,
-      "Sword Keep": 106
+      "Sword Keep": 106,
+	  "Starilaskur": 250,
     },
     "Sword Keep": {
       "Hatheril": 106,
@@ -73,7 +74,8 @@ const initialState = {
     "Starilaskur": {
       "Wroat": 617,
       "Sterngate": 269,
-      "Vathirond": 198
+      "Vathirond": 198,
+	  "Hatheril": 250
     },
     "Sterngate": {
       "Starilaskur": 269,
@@ -112,6 +114,109 @@ const initialState = {
     },
     "Korranberg": {
       "Zolanberg": 195
+    }
+  },
+
+  rails3E: {
+    "Rekkenmark": {
+      "Korth": 141,
+      "Thaliost": 27
+    },
+    "Korth": {
+      "Rekkenmark": 141,
+      "Atur": 332
+    },
+    "Atur": {
+      "Korth": 332,
+      "Vedykar": 227
+    },
+    "Vedykar": {
+      "Atur": 227,
+      "Fort Zombie": 239,
+      "Vulyar": 220
+    },
+    "Fort Zombie": {
+      "Vedykar": 239,
+      "Gatherhold": 262
+    },
+    "Krona Peak": {
+      "Irontown": 262
+    },
+    "Irontown": {
+      "Krona Peak": 262,
+      "Vulyar": 456
+    },
+    "Vulyar": {
+      "Irontown": 456,
+      "Vedykar": 220
+    },
+    "Thaliost": {
+      "Rekkenmark": 27,
+      "Fairhaven": 617
+    },
+    "Gatherhold": {
+      "Fort Zombie": 262
+    },
+    "Sharn": {
+      "Wroat": 417
+    },
+    "Wroat": {
+      "Sharn": 417,
+      "Hatheril": 717,
+      "Starilaskur": 939
+    },
+    "Hatheril": {
+      "Wroat": 717,
+      "Sword Keep": 150,
+      "Starilaskur": 372,
+    },
+    "Sword Keep": {
+      "Hatheril": 150,
+      "Marketplace": 97
+    },
+    "Starilaskur": {
+      "Wroat": 939,
+      "Sterngate": 369,
+      "Vathirond": 287,
+      "Hatheril": 372,
+    },
+    "Sterngate": {
+      "Starilaskur": 369,
+      "Zolanberg": 386
+    },
+    "Vathirond": {
+      "Starilaskur": 287,
+      "Aruldusk": 262
+    },
+    "Aruldusk": {
+      "Vathirond": 262,
+      "Sigilstar": 166
+    },
+    "Sigilstar": {
+      "Aruldusk": 166,
+      "Flamekeep": 300
+    },
+    "Flamekeep": {
+      "Sigilstar": 300
+    },
+    "Marketplace": {
+      "Sword Keep": 97,
+      "Passage": 369
+    },
+    "Passage": {
+      "Marketplace": 369,
+      "Fairhaven": 348
+    },
+    "Fairhaven": {
+      "Passage": 348,
+      "Thaliost": 617
+    },
+    "Zolanberg": {
+      "Sterngate": 386,
+      "Korranberg": 300
+    },
+    "Korranberg": {
+      "Zolanberg": 300
     }
   },
   startStation: '',

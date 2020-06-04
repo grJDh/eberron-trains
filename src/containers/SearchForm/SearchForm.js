@@ -1,25 +1,24 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import StationInput from '../../components/StationInput/StationInput';
 
 import './SearchForm.scss';
 
-import { mainSelector, startStationChange, finishStationChange } from '../../slices/main';
+import { startStationChange, finishStationChange } from '../../slices/main';
 
-const SearchForm = () => {
+const SearchForm = ({ stations }) => {
 
   const dispatch = useDispatch();
-  const { rails } = useSelector(mainSelector);
 
   const onStartStationChange = event => dispatch(startStationChange(event.target.value));
   const onFinishStationChange = event => dispatch(finishStationChange(event.target.value));
 
   return (
     <div className='form'>
-      <StationInput placeholder="From..." onChangeFunc={onStartStationChange} rails={rails} />
+      <StationInput placeholder="From..." onChangeFunc={onStartStationChange} stations={stations} />
       {/* <span>🠒</span> */}
-      <StationInput placeholder="To..." onChangeFunc={onFinishStationChange} rails={rails} />
+      <StationInput placeholder="To..." onChangeFunc={onFinishStationChange} stations={stations} />
     </div>
   );
 }
