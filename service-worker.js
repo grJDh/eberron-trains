@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/eberron-trains/precache-manifest.983c820724de6011c26ed2e9f4f067a6.js"
+  "/eberron-trains/precache-manifest.94edf2ff326dd16d6f565c365a60e5ab.js"
 );
 
 self.addEventListener('message', (event) => {
