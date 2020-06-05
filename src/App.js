@@ -17,6 +17,8 @@ const App = () => {
   const dispatch = useDispatch();
   const { startStation, finishStation, miles, rails4E, rails3E } = useSelector(mainSelector);
 
+  const settingsStore = useSelector(settingsSelector)
+
   const rails = () => {
     switch (distanceSource) {
       case '3E':
@@ -93,7 +95,6 @@ const App = () => {
     optimalPath.reverse();
 
     return [weights[finish], optimalPath]
-
   }
 
   const letsTravel = () => {
@@ -125,6 +126,12 @@ const App = () => {
   //   }
   //   console.log(rails2);
   // }
+
+  const placeToLocalStorage = (name, item) => localStorage.setItem(name, JSON.stringify(item));
+
+  window.onbeforeunload = () => {
+    placeToLocalStorage('settingsStore', settingsStore);
+  };
 
   return (
     <main>

@@ -9,9 +9,7 @@ import { settingsSelector } from '../../slices/settings';
 const AnswerOutput = props => {
 
   const { miles, path } = useSelector(mainSelector);
-  const { costMode } = useSelector(settingsSelector);
-
-  const speed = 30;
+  const { costMode, speed } = useSelector(settingsSelector);
 
   const time = (miles / speed) + path.length - 2;
   const days = Math.trunc(time / 24);
