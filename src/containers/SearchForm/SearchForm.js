@@ -7,7 +7,7 @@ import './SearchForm.scss';
 
 import { startStationChange, finishStationChange } from '../../slices/main';
 
-const SearchForm = ({ stations }) => {
+const SearchForm = ({ stations, letsTravel }) => {
 
   const dispatch = useDispatch();
 
@@ -16,9 +16,12 @@ const SearchForm = ({ stations }) => {
 
   return (
     <div className='form'>
-      <StationInput placeholder="From..." onChangeFunc={onStartStationChange} stations={stations} />
-      {/* <span>🠒</span> */}
-      <StationInput placeholder="To..." onChangeFunc={onFinishStationChange} stations={stations} />
+      <div>
+        <StationInput placeholder="From..." onChangeFunc={onStartStationChange} stations={stations} />
+        {/* <span>🠒</span> */}
+        <StationInput placeholder="To..." onChangeFunc={onFinishStationChange} stations={stations} />
+      </div>
+      <button onClick={letsTravel}>Calculate</button>
     </div>
   );
 }

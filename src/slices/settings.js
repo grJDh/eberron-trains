@@ -7,6 +7,11 @@ const initialState = checkLocalStorage('settingsStore',
   costMode: '0',
   distanceSource: '4E',
   speed: 30,
+  customRails: [
+    ['Thaliost', "Rekkenmark", 27],
+    ['Vedykar', "Vulyar", 147],
+    ['Vulyar', "Gatherhold", 302]
+  ],
 });
 
 const settingsSlice = createSlice({
@@ -22,10 +27,13 @@ const settingsSlice = createSlice({
     speedChange: (state, { payload }) => {
       state.speed = payload;
     },
+    setCustomRails: (state, { payload }) => {
+      state.customRails = payload;
+    },
   }
 });
 
-export const { costModeChange, distanceSourceChange, speedChange } = settingsSlice.actions;
+export const { costModeChange, distanceSourceChange, speedChange, setCustomRails } = settingsSlice.actions;
 
 export const settingsSelector = state => state.settings;
 

@@ -7,19 +7,19 @@ import Settings from './components/Settings/Settings';
 
 import './App.scss';
 
-import { mainSelector, setMiles, setPath } from './slices/main';
-import { settingsSelector} from './slices/settings';
+import { mainSelector, setMiles, setPath, setCombinedRails } from './slices/main';
+import { settingsSelector } from './slices/settings';
 
 const App = () => {
 
-  const { distanceSource } = useSelector(settingsSelector);
+  const { distanceSource, customRails } = useSelector(settingsSelector);
 
   const dispatch = useDispatch();
-  const { startStation, finishStation, miles, rails4E, rails3E } = useSelector(mainSelector);
+  const { startStation, finishStation, miles, rails4E, rails3E, combinedRails } = useSelector(mainSelector);
 
   const settingsStore = useSelector(settingsSelector)
 
-  const rails = () => {
+  const getRails = () => {
     switch (distanceSource) {
       case '3E':
         console.log(123)
@@ -29,7 +29,23 @@ const App = () => {
     }
   }
 
-  const stations = Object.keys(rails4E);
+  const addStations = () => {
+    let baseRails = getRails();
+    let railsCombined = {};
+
+    baseRails = baseRails.concat(customRails);
+
+    baseRails.forEach(element => {
+      railsCombined = {...railsCombined, [element[0]]:{...railsCombined[element[0]], [element[1]]: element[2]}}
+      railsCombined = {...railsCombined, [element[1]]:{...railsCombined[element[1]], [element[0]]: element[2]}}
+    });
+
+    // console.log(railsCombined)
+    return railsCombined;
+  }
+
+  const rails = addStations();
+  const stations = Object.keys(rails);
 
   const findLowestCostNode = (costs, processed) => {
     const knownNodes = Object.keys(costs)
@@ -48,7 +64,7 @@ const App = () => {
   };
 
   const findingPath = (start, finish) => {
-    let weights = {...rails()[start], [start]: 0};
+    let weights = {...rails[start], [start]: 0};
     let visited = [];
 
     for (let i = 0; i < stations.length; i++) {
@@ -58,7 +74,7 @@ const App = () => {
     }
 
     let path = {};
-    for (let child in rails()[start]) {
+    for (let child in rails[start]) {
       path[child] = start;
     }
 
@@ -66,7 +82,7 @@ const App = () => {
 
     while (node) {
       let costToReachNode = weights[node];
-      let childrenOfNode = rails()[node];
+      let childrenOfNode = rails[node];
     
       for (let child in childrenOfNode) {
         let costFromNodetoChild = childrenOfNode[child]
@@ -98,34 +114,12 @@ const App = () => {
   }
 
   const letsTravel = () => {
-    if (startStation === finishStation) {
-      dispatch(setMiles(0));
-      dispatch(setPath([]));
-    } else {
+    if (stations.includes(startStation) && stations.includes(finishStation)) {
       const answer = findingPath(startStation, finishStation);
       dispatch(setMiles(answer[0]));
       dispatch(setPath(answer[1]));
     }
   }
-
-  useEffect(() => {
-    if (stations.includes(startStation) && stations.includes(finishStation)) letsTravel();
-  }, [startStation, finishStation, distanceSource]);
-
-  // const addStation = (first, second, dist) => {
-  //   if (!rails2[first]) {
-  //     rails2 = {...rails2, [first]: {[second]: dist}}
-  //   } else {
-  //     rails2 = {...rails2, [first]: {...rails2[first], [second]: dist}}
-  //   }
-
-  //   if (!rails2[second]) {
-  //     rails2 = {...rails2, [second]: {[first]: dist}}
-  //   } else {
-  //     rails2 = {...rails2, [second]: {...rails2[second], [first]: dist}}
-  //   }
-  //   console.log(rails2);
-  // }
 
   const placeToLocalStorage = (name, item) => localStorage.setItem(name, JSON.stringify(item));
 
@@ -135,7 +129,7 @@ const App = () => {
 
   return (
     <main>
-      <SearchForm stations={stations}/>
+      <SearchForm stations={stations} letsTravel={letsTravel}/>
       {miles ? <AnswerOutput /> : ''}
       <Settings />
     </main>

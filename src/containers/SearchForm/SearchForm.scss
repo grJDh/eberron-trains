@@ -1,13 +1,27 @@
 .form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
-  width: 100%;
+  width: auto;
+  // max-width: 980px;
 
   grid-area: form;
+
+  div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    width: 95%;
+    height: 40px;
+  }
 }
 
 span {
