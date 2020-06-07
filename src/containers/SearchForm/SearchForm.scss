@@ -20,11 +20,29 @@
 
   button {
     width: 95%;
-    height: 40px;
+    height: 60px;
   }
 }
 
 span {
   font-size: 2rem;
   color: white;
+}
+
+button {
+  width: 120px;
+  margin: 0 5px;
+  height: 40px;
+  font-size: 1.5rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  &:hover {
+    background-color: rgba(205, 205, 205, 0.8);
+  }
+
+  &:active {
+    background-color: rgba(155, 155, 155, 0.8);
+  }
 }

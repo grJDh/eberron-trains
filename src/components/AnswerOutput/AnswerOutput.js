@@ -9,9 +9,9 @@ import { settingsSelector } from '../../slices/settings';
 const AnswerOutput = props => {
 
   const { miles, path } = useSelector(mainSelector);
-  const { costMode, speed } = useSelector(settingsSelector);
+  const { costMode, speed, layover } = useSelector(settingsSelector);
 
-  const time = (miles / speed) + path.length - 2;
+  const time = (miles / speed) + ((path.length - 2) * layover);
   const days = Math.trunc(time / 24);
   const hours = Math.trunc(time) - (days * 24);
   const minutes = Math.ceil((time - Math.trunc(time)) * 60);
@@ -102,7 +102,7 @@ const AnswerOutput = props => {
       {days ? days+':' : ''}
       {(hours / 10 < 1 && days) ? '0' + hours : hours}:
       {minutes / 10 < 1 ? '0' + minutes : minutes} </span>
-      (with 1 hour layover at each station)
+      {layover ? '(with ' + layover + ' hour(s) layover at each station)' : ''}
       </div>
 
       <div className='answer-block answer-cost'>Cost: 

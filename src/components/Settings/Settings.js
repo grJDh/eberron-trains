@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import './Settings.scss';
 
-import { settingsSelector, costModeChange, distanceSourceChange, speedChange, setCustomRails } from '../../slices/settings';
+import { settingsSelector, costModeChange, distanceSourceChange, speedChange, layoverChange, setCustomRails } from '../../slices/settings';
 
 const Settings = props => {
 
   const dispatch = useDispatch();
-  const { costMode, distanceSource, speed, customRails } = useSelector(settingsSelector);
+  const { costMode, distanceSource, speed, layover, customRails } = useSelector(settingsSelector);
 
   const onCostModeChange = event => dispatch(costModeChange(event.target.value));
   const onDistanceSourceChange = event => dispatch(distanceSourceChange(event.target.value));
   const onSpeedChange = event => dispatch(speedChange(event.target.value));
+  const onLayoverChange = event => dispatch(layoverChange(event.target.value));
 
   const [customRailsChanges, setCustomRailsChanges] = useState(JSON.stringify(customRails))
   const onCustomRailsChange = event => setCustomRailsChanges(event.target.value);
@@ -46,13 +47,27 @@ const Settings = props => {
         </div>
 
         <div className='settings-block'>
-          <label>Speed:</label>
+          <label>Speed (mph):</label>
           <input onChange={onSpeedChange} type="number" defaultValue={speed} style={{width: '50px'}}/>
+        </div>
+
+        <div className='settings-block'>
+          <label>Layover (hours):</label>
+          <input onChange={onLayoverChange} type="number" defaultValue={layover} style={{width: '50px'}}/>
+        </div>
+
+        <div className='settings-block settings-customDistances'>
+          <label>Custom prices:</label>
+          <textarea rows="5" cols="32" value={customRailsChanges} spellCheck={false}/>
+          <div>
+            <button >Save</button>
+            <button >Reset</button>
+          </div>
         </div>
 
         <div className='settings-block settings-customDistances'>
           <label>Custom distances:</label>
-          <textarea onChange={onCustomRailsChange} rows="5" cols="30" value={customRailsChanges} />
+          <textarea onChange={onCustomRailsChange} rows="5" cols="32" value={customRailsChanges} spellCheck={false}/>
           <div>
             <button onClick={onCustomRailsSave}>Save</button>
             <button onClick={onCustomRailsReset}>Reset</button>

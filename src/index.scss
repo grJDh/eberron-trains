@@ -3,10 +3,17 @@ html, body, #root {
   height: -webkit-fill-available;
 }
 
-#root {
-  background-image: url('train-bg.jpg');
+html { 
+  background: url('train-bg.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
-  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.4);
+}
+
+#root {
+  box-shadow: inset 0 0 0 500px rgba(0,0,0,.4);
+  overflow: auto;
 }
 
 body {
