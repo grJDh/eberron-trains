@@ -31,7 +31,7 @@ const Settings = props => {
         alert(e);
       }
     } else {
-      dispatch(setCustomPrices([]));
+      dispatch(setCustomPrices({}));
     }
   }
 
