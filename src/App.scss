@@ -3,9 +3,16 @@ main {
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.5fr min-content 0.6fr;
+  grid-template-rows: min-content min-content 0.6fr;
   gap: 10px 10px;
   grid-template-areas: "form" "answer" "settings";
 
   justify-items: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 2rem;
+  text-shadow: black 1px 0 10px;
+  text-align: center;
 }

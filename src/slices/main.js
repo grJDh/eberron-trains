@@ -60,7 +60,19 @@ const initialState = {
     ['Sterngate', "Zolanberg", 214],
     ['Zolanberg', "Korranberg", 195],
   ],
-  combinedRails: [],
+  // combinedRails: [],
+  basePrices: {
+    'ERLW (5E) - per mile': [{tier: 'Flat', price: 0.5, pricingMethod:'per mile', mod: 1}],
+    'WGtE (5E) - per day': [
+      {tier: 'Flat', price: 1, pricingMethod:'per hour', mod: 24},
+      {tier: 'Luxury', price: 4, pricingMethod:'per hour', mod: 24}
+    ],
+    'ECG (4E) - per mile': [
+      {tier: 'First Class', price: 0.5, pricingMethod:'per mile', mod: 1},
+      {tier: 'Standard', price: 0.2, pricingMethod:'per mile', mod: 1},
+      {tier: 'Steerage', price: 0.03, pricingMethod:'per mile', mod: 1}
+    ],
+  },
   startStation: '',
   finishStation: '',
   miles: 0,

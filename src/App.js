@@ -1,29 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import SearchForm from './containers/SearchForm/SearchForm';
-import AnswerOutput from './components/AnswerOutput/AnswerOutput';
-import Settings from './components/Settings/Settings';
+import AnswerOutput from './containers/AnswerOutput/AnswerOutput';
+import Settings from './containers/Settings/Settings';
 
 import './App.scss';
 
-import { mainSelector, setMiles, setPath, setCombinedRails } from './slices/main';
+import { mainSelector, setMiles, setPath } from './slices/main';
 import { settingsSelector } from './slices/settings';
 
 const App = () => {
 
-  const { distanceSource, customRails } = useSelector(settingsSelector);
+  const [error, setError] = useState(false);
+
+  const { distanceSource, customRails, customPrices } = useSelector(settingsSelector);
 
   const dispatch = useDispatch();
-  const { startStation, finishStation, miles, rails4E, rails3E, combinedRails } = useSelector(mainSelector);
+  const { startStation, finishStation, miles, rails4E, rails3E } = useSelector(mainSelector);
 
   const settingsStore = useSelector(settingsSelector)
 
   const getRails = () => {
     switch (distanceSource) {
       case '3E':
-        console.log(123)
         return rails3E;
+      case 'Only custom':
+        return [];
       default:
         return rails4E;
     }
@@ -40,7 +43,6 @@ const App = () => {
       railsCombined = {...railsCombined, [element[1]]:{...railsCombined[element[1]], [element[0]]: element[2]}}
     });
 
-    // console.log(railsCombined)
     return railsCombined;
   }
 
@@ -102,11 +104,12 @@ const App = () => {
     delete path[start];
     let optimalPath = [finish];
     let parent = path[finish];
+
     for (let i in path) {
       if (parent) {
         optimalPath.push(parent);
         parent = path[parent];
-      }
+      } 
     }
     optimalPath.reverse();
 
@@ -115,9 +118,14 @@ const App = () => {
 
   const letsTravel = () => {
     if (stations.includes(startStation) && stations.includes(finishStation)) {
-      const answer = findingPath(startStation, finishStation);
-      dispatch(setMiles(answer[0]));
-      dispatch(setPath(answer[1]));
+      setError(false);
+      if (startStation !== finishStation) {
+        const answer = findingPath(startStation, finishStation);
+        dispatch(setMiles(answer[0]));
+        dispatch(setPath(answer[1]));
+      }
+    } else {
+      setError(true);
     }
   }
 
@@ -127,10 +135,15 @@ const App = () => {
     placeToLocalStorage('settingsStore', settingsStore);
   };
 
+  useEffect(() => {
+    if (startStation !== '' && finishStation !== '') letsTravel();
+  }, [customPrices, customRails]);
+
   return (
     <main>
       <SearchForm stations={stations} letsTravel={letsTravel}/>
-      {miles ? <AnswerOutput /> : ''}
+      {error ? <span className='error-message'>One or both stations doesn't exist</span> : ''}
+      {miles && !error ? <AnswerOutput /> : ''}
       <Settings />
     </main>
   );

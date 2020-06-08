@@ -28,9 +28,13 @@
     margin: 5px;
     width: 100%;
     font-size: 1rem;
-  }  
+  }
+
+  input {
+    width: 50px;
+  }
 }
-.settings-customDistances {
+.settings-custom {
   max-width: 500px;
 }
 

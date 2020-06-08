@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const checkLocalStorage = (item, defualt) => localStorage.getItem(item) ? JSON.parse(localStorage.getItem(item)) : defualt;
 
 const baseState = {
-  costMode: '0',
+  costMode: 'All',
   distanceSource: '4E',
   speed: 30,
   layover: 1,
@@ -12,9 +12,18 @@ const baseState = {
     ['Vedykar', "Vulyar", 147],
     ['Vulyar', "Gatherhold", 302]
   ],
+  customPrices: {
+    'Custom - per mile': [
+      {tier: 'Flat', price: 0.01, pricingMethod:'per mile', mod: 1},
+    ],
+    'Custom - per hour': [
+      {tier: 'Standard', price: 1, pricingMethod:'per hour', mod: 24},
+    ]
+  },
 };
 
 const localState = checkLocalStorage('settingsStore', baseState);
+// const localState = baseState;
 
 const initialState = {...baseState, ...localState};
 
@@ -37,10 +46,13 @@ const settingsSlice = createSlice({
     setCustomRails: (state, { payload }) => {
       state.customRails = payload;
     },
+    setCustomPrices: (state, { payload }) => {
+      state.customPrices = payload;
+    },
   }
 });
 
-export const { costModeChange, distanceSourceChange, speedChange, setCustomRails, layoverChange } = settingsSlice.actions;
+export const { costModeChange, distanceSourceChange, speedChange, setCustomRails, layoverChange, setCustomPrices } = settingsSlice.actions;
 
 export const settingsSelector = state => state.settings;
 
