@@ -135,11 +135,11 @@ JSON array with custom distances and stations. Each element should contain 3 ele
 2. Name of the second station.
 3. Distance (in miles) between these stations.
 
-You can change distance between existing stations in this form (e.g. `['Krona Peak', "Irontown", 1000]` - now distance between Krona Peak and Irontown is 1000 miles. Yay!)...
+You can change distance between existing stations (e.g. `['Krona Peak', "Irontown", 1000]` - now distance between Krona Peak and Irontown is 1000 miles. Yay!)...
 
-...add rails between existing stations (e.g. by default there are rails between Vedykar and Vulyar - it is done by entering `['Vedykar', "Vulyar", 147]` in a form)...
+...add rails between existing stations (e.g. by default there are custom rails between Vedykar and Vulyar - it is done by `['Vedykar', "Vulyar", 147]`)...
 
-...and add entirely new stations (e.g.  ["Karrlakton", "Korth", 247])!
+...and add entirely new stations (e.g.  `["Karrlakton", "Korth", 247]`)!
 
 ---
 
