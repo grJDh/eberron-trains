@@ -83,7 +83,7 @@ You can also change an existing pricing method in this form by their name (e.g. 
 ---
 
 Example of **"WGtE (5E) - per day"** pricing method:
-```
+```yaml
 {
  "WGtE (5E) - per day": [
   {
@@ -103,7 +103,7 @@ Example of **"WGtE (5E) - per day"** pricing method:
 ```
 
 Example of **"ECG (4E) - per mile"** pricing method:
-```
+```yaml
 {
  "ECG (4E) - per mile": [
   {
@@ -151,8 +151,7 @@ You can change distance between existing stations in this form (e.g. `['Krona Pe
 ---
 
 Examaple of default custom distances:
-
-```
+```yaml
 [
  [
   "Thaliost",
@@ -173,7 +172,7 @@ Examaple of default custom distances:
 ```
 
 Example of custom distances in my campaign:
-```
+```yaml
 [
  [
   "Thaliost",
