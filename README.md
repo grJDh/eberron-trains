@@ -1,68 +1,224 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Eberron Lighting Rails Calculator (ELRC)
 
-## Available Scripts
+ELRC is a small SPA designed to calculate the distance, travel time and cost of travel by Eberron lighting rails between two stations.
 
-In the project directory, you can run:
+## Table of contents
+* [Usage](#usage)
+* [Settings](#settings)
+  * [Pricing method](#pricing-method)
+  * [Distances source](#distances-source)
+  * [Custom prices](#custom-prices)
+  * [Custom distances](#custom-distances)
+* [Setup](#setup)
 
-### `npm start`
+## Usage
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Enter stations
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Enter start and end station in the _"From..."_ and _"To..."_ forms respectively and press _"Calculate"_ button.
 
-### `npm test`
+![alt](https://i.imgur.com/Q4x4Aj4.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Results
 
-### `npm run build`
+* **Distance** - distance between stations in miles.
+* **Travel time** - travel time in D:H:M format (and layover time).
+* **Cost** - travel cost based on different sources (can be specified and set in the settings, see below)
+* **Stations** - all stations on the path of the train.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![alt](https://i.imgur.com/zjCRvSy.png)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Settings
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![alt](https://i.imgur.com/BpsaqGV.png)
 
-### `npm run eject`
+### Pricing method
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Method of pricing.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* **All** - show all pricing methods.
+* **ERLW (5E) - per mile** - from *"Eberron: Rising from the Last War"*: **5 sp/mile.**
+* **WGtE (5E) - per day** - from *"Wayfinder's Guide to Eberron"*:
+  * *Flat* - **1 gp/day (24 hours)**
+  * *Flat* - **4 gp/day (24 hours)**
+* **ECG (4E) - per mile** - from *"Eberron Campaign Guide"*:
+  * *First Class* - **5 sp/mile**
+  * *Standard* - **2 sp/mile**
+  * *Steerage* - **3 cp/mile**
+* **Custom** - custom pricing method (can be set in the settings, see below)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Distances source
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Source of distances between stations (in miles).
 
-## Learn More
+* **4E** - distances from [u/The-MQ](https://www.reddit.com/user/The-MQ/)'s [Travel and Khorvaire](https://homebrewery.naturalcrit.com/share/Bk7BNjmYgI#p1) document (based on [4E map](https://vignette.wikia.nocookie.net/eberron/images/f/f4/D%26D_-_4th_Edition_-_Eberron_Map_Khorvaire.jpg/revision/latest?cb=20090819121531)).
+* **3E** - distances from [3E map](http://archive.wizards.com/default.asp?x=dnd/ebwe/20041206a).
+* **Only custom** - only custom distances from *"Custom distances"* form (see below).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Speed
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Speed of the train in *miles per hour* (default: 30).
 
-### Code Splitting
+### Layover
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Time of layover at each station in hours (default: 1, number can be fractional).
 
-### Analyzing the Bundle Size
+### Custom prices
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+JSON object with custom prices. Each property (that should be named same as a name of method) is an array of objects. Each object in this array is a tier of method and should contain following properties:
 
-### Making a Progressive Web App
+* **tier** - name of the tier (e.g. "First class", "Steerage", "Flat").
+* **price** - cost of travel (per hour or per mile) in gold (**1 gold** is just **1**, **5 silver** is **0.5**, **3 copper** is **0.03**, etc).
+* **pricingMethod** - method of pricing. Can be either **"per mile"** or **"per hour"**.
+* **mod** - modifier of pricingMethod (mod of 0.5 with "per hour" is "per 30 minutes", 24 is "per day"; 15 with "per mile" is "per 15 miles", etc.)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+You can also change an existing pricing method in this form by their name (e.g. setting name of custom pricing method as "ERLW (5E) - per mile").
 
-### Advanced Configuration
+---
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+**"Save"** button saves made changes;
 
-### Deployment
+**"Reset"** button resets made changes.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+---
 
-### `npm run build` fails to minify
+Example of **"WGtE (5E) - per day"** pricing method:
+```
+{
+ "WGtE (5E) - per day": [
+  {
+   "tier": "Flat",
+   "price": 1,
+   "pricingMethod": "per hour",
+   "mod": 24
+  },
+  {
+   "tier": "Luxury",
+   "price": 4,
+   "pricingMethod": "per hour",
+   "mod": 24
+  }
+ ]
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Example of **"ECG (4E) - per mile"** pricing method:
+```
+{
+ "ECG (4E) - per mile": [
+  {
+   "tier": "Steerage",
+   "price": 0.03,
+   "pricingMethod": "per mile",
+   "mod": 1
+  },
+  {
+   "tier": "Standard",
+   "price": 0.2,
+   "pricingMethod": "per mile",
+   "mod": 1
+  },
+  {
+   "tier": "First Class",
+   "price": 0.5,
+   "pricingMethod": "per mile",
+   "mod": 1
+  }
+ ]
+}
+```
+
+### Custom distances
+
+JSON array with custom distances and stations. Each element should contain 3 elements:
+
+1. Name of the first station.
+2. Name of the second station.
+3. Distance (in miles) between these stations.
+
+You can change distance between existing stations in this form (e.g. `['Krona Peak', "Irontown", 1000]` - now distance between Krona Peak and Irontown is 1000 miles. Yay!)...
+
+...add rails between existing stations (e.g. by default there are rails between Vedykar and Vulyar - it is done by entering `['Vedykar', "Vulyar", 147]` in a form)...
+
+...and add entirely new stations (e.g.  ["Karrlakton", "Korth", 247])!
+
+---
+
+**"Save"** button saves made changes;
+
+**"Reset"** button resets made changes.
+
+---
+
+Examaple of default custom distances:
+
+```
+[
+ [
+  "Thaliost",
+  "Rekkenmark",
+  27
+ ],
+ [
+  "Vedykar",
+  "Vulyar",
+  147
+ ],
+ [
+  "Vulyar",
+  "Gatherhold",
+  302
+ ]
+]
+```
+
+Example of custom distances in my campaign:
+```
+[
+ [
+  "Thaliost",
+  "Rekkenmark",
+  27
+ ],
+ [
+  "Vedykar",
+  "Vulyar",
+  147
+ ],
+ [
+  "Vulyar",
+  "Gatherhold",
+  302
+ ],
+ [
+  "Vedykar",
+  "Karrlakton",
+  123
+ ],
+ [
+  "Karrlakton",
+  "Korth",
+  247
+ ],
+ [
+  "Marketplace",
+  "Sigilstar",
+  221
+ ],
+ [
+  "Flamekeep",
+  "Passage",
+  427
+ ],
+ [
+  "Sharn",
+  "Trolanport",
+  483
+ ],
+ [
+  "Trolanport",
+  "Korranberg",
+  379
+ ]
+]
+```

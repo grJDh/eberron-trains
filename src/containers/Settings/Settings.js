@@ -19,25 +19,35 @@ const Settings = props => {
   const onSpeedChange = event => dispatch(speedChange(event.target.value));
   const onLayoverChange = event => dispatch(layoverChange(event.target.value));
 
-  const [customRailsChanges, setCustomRailsChanges] = useState(JSON.stringify(customRails, null, 1))
-  const onCustomRailsChange = event => setCustomRailsChanges(event.target.value);
-  const onCustomRailsReset = () => setCustomRailsChanges(JSON.stringify(customRails, null, 1));
-  const onCustomRailsSave = () => {
-    if (customRailsChanges.length !== 0) {
-      dispatch(setCustomRails(JSON.parse(customRailsChanges)));
-    } else {
-      dispatch(setCustomRails([]));
-    }
-  }
-
   const [customPricesChanges, setCustomPricesChanges] = useState(JSON.stringify(customPrices, null, 1))
   const onCustomPricesChange = event => setCustomPricesChanges(event.target.value);
   const onCustomPricesReset = () => setCustomPricesChanges(JSON.stringify(customPrices, null, 1));
   const onCustomPricesSave = () => {
     if (customPricesChanges.length !== 0) {
-      dispatch(setCustomPrices(JSON.parse(customPricesChanges)));
+      try {
+        dispatch(setCustomPrices(JSON.parse(customPricesChanges)));
+      }
+      catch (e) {
+        alert(e);
+      }
     } else {
       dispatch(setCustomPrices([]));
+    }
+  }
+
+  const [customRailsChanges, setCustomRailsChanges] = useState(JSON.stringify(customRails, null, 1))
+  const onCustomRailsChange = event => setCustomRailsChanges(event.target.value);
+  const onCustomRailsReset = () => setCustomRailsChanges(JSON.stringify(customRails, null, 1));
+  const onCustomRailsSave = () => {
+    if (customRailsChanges.length !== 0) {
+      try {
+        dispatch(setCustomRails(JSON.parse(customRailsChanges)));
+      }
+      catch (e) {
+        alert(e);
+      }
+    } else {
+      dispatch(setCustomRails([]));
     }
   }
 
