@@ -9,7 +9,6 @@ ELRC is a small SPA designed to calculate the distance, travel time and cost of 
   * [Distances source](#distances-source)
   * [Custom prices](#custom-prices)
   * [Custom distances](#custom-distances)
-* [Setup](#setup)
 
 ## Usage
 
