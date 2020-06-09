@@ -131,9 +131,9 @@ const App = () => {
 
   const placeToLocalStorage = (name, item) => localStorage.setItem(name, JSON.stringify(item));
 
-  window.onbeforeunload = () => {
+  useEffect(() => {
     placeToLocalStorage('settingsStore', settingsStore);
-  };
+  }, [settingsStore]);
 
   useEffect(() => {
     if (startStation !== '' && finishStation !== '') letsTravel();
