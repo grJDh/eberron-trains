@@ -7,6 +7,7 @@ const baseState = {
   distanceSource: '4E',
   speed: 30,
   layover: 1,
+  colorPrices: false,
   customRails: [
     ['Thaliost', "Rekkenmark", 27],
     ['Vedykar', "Vulyar", 147],
@@ -49,10 +50,14 @@ const settingsSlice = createSlice({
     setCustomPrices: (state, { payload }) => {
       state.customPrices = payload;
     },
+    ColorPricesChange: (state, { payload }) => {
+      console.log(payload)
+      state.colorPrices = payload;
+    },
   }
 });
 
-export const { costModeChange, distanceSourceChange, speedChange, setCustomRails, layoverChange, setCustomPrices } = settingsSlice.actions;
+export const { costModeChange, distanceSourceChange, speedChange, setCustomRails, layoverChange, setCustomPrices, ColorPricesChange } = settingsSlice.actions;
 
 export const settingsSelector = state => state.settings;
 

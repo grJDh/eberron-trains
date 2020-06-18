@@ -4,20 +4,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import SettingsSelect from '../../components/SettingsSelect/SettingsSelect';
 import SettingsNumInput from '../../components/SettingsNumInput/SettingsNumInput';
 import SettingsTextArea from '../../components/SettingsTextArea/SettingsTextArea';
+import SettingsCheckbox from '../../components/SettingsCheckbox/SettingsCheckbox';
 
 import './Settings.scss';
 
-import { settingsSelector, costModeChange, distanceSourceChange, speedChange, layoverChange, setCustomRails, setCustomPrices } from '../../slices/settings';
+import { settingsSelector, costModeChange, distanceSourceChange, speedChange, layoverChange, setCustomRails, setCustomPrices, ColorPricesChange } from '../../slices/settings';
 
 const Settings = props => {
 
   const dispatch = useDispatch();
-  const { costMode, distanceSource, speed, layover, customRails, customPrices } = useSelector(settingsSelector);
+  const { costMode, distanceSource, speed, layover, customRails, customPrices, colorPrices } = useSelector(settingsSelector);
 
   const onCostModeChange = event => dispatch(costModeChange(event.target.value));
   const onDistanceSourceChange = event => dispatch(distanceSourceChange(event.target.value));
   const onSpeedChange = event => dispatch(speedChange(event.target.value));
   const onLayoverChange = event => dispatch(layoverChange(event.target.value));
+  const onColorPricesChange = event => dispatch(ColorPricesChange(!colorPrices));
 
   const [customPricesChanges, setCustomPricesChanges] = useState(JSON.stringify(customPrices, null, 1))
   const onCustomPricesChange = event => setCustomPricesChanges(event.target.value);
@@ -80,6 +82,8 @@ const Settings = props => {
 
         <SettingsTextArea label={'Custom distances:'} onChangeFunc={onCustomRailsChange} saveFunc={onCustomRailsSave}
         resetFunc={onCustomRailsReset} defValue={customRailsChanges}/>
+
+        <SettingsCheckbox label={'Color prices:'} onFunc={onColorPricesChange} defValue={colorPrices}/>
     </div>
   );
 }

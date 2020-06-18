@@ -9,7 +9,7 @@ import { settingsSelector } from '../../slices/settings';
 const AnswerOutput = props => {
 
   const { miles, path, basePrices } = useSelector(mainSelector);
-  const { costMode, speed, layover, customPrices } = useSelector(settingsSelector);
+  const { costMode, speed, layover, customPrices, colorPrices } = useSelector(settingsSelector);
 
   const time = (miles / speed) + ((path.length - 2) * layover);
   const days = Math.trunc(time / 24);
@@ -19,7 +19,23 @@ const AnswerOutput = props => {
   const combinedPrices = {...basePrices, ...customPrices}
   const methods = Object.keys(combinedPrices);
 
-  
+  const coloredPricesStyle = p => {
+
+    if (colorPrices) {
+      switch (p) {
+        case 'gold':
+          return {color: 'gold', textShadow: 'black 0px 0px 5px'}
+        case 'silver':
+          return {color: 'silver', textShadow: 'black 0px 0px 5px'}
+        case 'copper':
+          return {color: '#da8932', textShadow: 'black 0px 0px 5px'}
+        default:
+          return {color: 'black'}
+      }
+    }
+
+    return {color: 'black'}
+  }
   
   const returnSeparatedCost = cost => {
     return [
@@ -45,9 +61,9 @@ const AnswerOutput = props => {
               return (
                 <li>
                   <span className='answer-category-italic'>{style.tier + ': '}</span>
-                  <span className='answer-cost-bold '>{separatedCost[0] ? separatedCost[0] + 'gp ' : ''}
-                  {separatedCost[1] ? separatedCost[1] + 'sp ' : ''}
-                  {separatedCost[2] ? separatedCost[2] + 'cp ' : ''}</span>
+                  <span className='answer-cost-bold' style={coloredPricesStyle('gold')}>{separatedCost[0] ? separatedCost[0] + 'gp ' : ''}</span>
+                  <span className='answer-cost-bold' style={coloredPricesStyle('silver')}>{separatedCost[1] ? separatedCost[1] + 'sp ' : ''}</span>
+                  <span className='answer-cost-bold' style={coloredPricesStyle('copper')}>{separatedCost[2] ? separatedCost[2] + 'cp ' : ''}</span>
                 </li>
               )})}
           </ul>
@@ -60,7 +76,7 @@ const AnswerOutput = props => {
     <div className='answer'>
       <div className='answer-block answer-distance'>Distance: <span className='answer-cost-bold '>{miles} miles</span></div>
       <div className='answer-block answer-time'>Travel time: <span className='answer-cost-bold '>
-      {days ? days+':' : ''}
+      {days ? days + ':' : ''}
       {(hours / 10 < 1 && days) ? '0' + hours : hours}:
       {minutes / 10 < 1 ? '0' + minutes : minutes} </span>
       {layover ? '(with ' + layover + ' hour(s) layover at each station)' : ''}
