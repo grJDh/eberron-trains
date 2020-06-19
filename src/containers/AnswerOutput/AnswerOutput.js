@@ -90,7 +90,7 @@ const AnswerOutput = props => {
 
       <div className='answer-block answer-path'>Stations: 
         <ul>
-          {path.map(item => <li key={item}>{item}</li>)}
+          {path.map(item => <li key={item}>{item[0]}</li>)}
         </ul>
       </div>
     </div>

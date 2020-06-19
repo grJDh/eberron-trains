@@ -77,13 +77,13 @@ const Settings = props => {
 
         <SettingsNumInput label={'Layover (hours):'} onFunc={onLayoverChange} defValue={layover}/>
 
+        <SettingsCheckbox label={'Color prices:'} onFunc={onColorPricesChange} defValue={colorPrices}/>
+
         <SettingsTextArea label={'Custom prices:'} onChangeFunc={onCustomPricesChange} saveFunc={onCustomPricesSave}
         resetFunc={onCustomPricesReset} defValue={customPricesChanges}/>
 
         <SettingsTextArea label={'Custom distances:'} onChangeFunc={onCustomRailsChange} saveFunc={onCustomRailsSave}
         resetFunc={onCustomRailsReset} defValue={customRailsChanges}/>
-
-        <SettingsCheckbox label={'Color prices:'} onFunc={onColorPricesChange} defValue={colorPrices}/>
     </div>
   );
 }

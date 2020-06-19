@@ -102,16 +102,23 @@ const App = () => {
     }
 
     delete path[start];
-    let optimalPath = [finish];
+    let optimalPath = [[finish]];
     let parent = path[finish];
 
     for (let i in path) {
       if (parent) {
-        optimalPath.push(parent);
+        optimalPath.push([parent]);
         parent = path[parent];
-      } 
+      }
     }
     optimalPath.reverse();
+
+    // optimalPath[0][0] = '0:00'
+
+    // for (let i = 1; i < optimalPath; i++) {
+    //   const element = array[index];
+      
+    // }
 
     return [weights[finish], optimalPath]
   }

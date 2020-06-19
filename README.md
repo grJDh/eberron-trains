@@ -25,11 +25,11 @@ Enter start and end station in the _"From..."_ and _"To..."_ forms respectively 
 * **Cost** - travel cost based on different sources (can be specified and set in the settings, see below)
 * **Stations** - all stations on the path of the train.
 
-![alt](https://i.imgur.com/zjCRvSy.png)
+![alt](https://i.imgur.com/AmxuTkq.png)
 
 ## Settings
 
-![alt](https://i.imgur.com/BpsaqGV.png)
+![alt](https://i.imgur.com/Lf2AhOk.png)
 
 ### Pricing method
 
@@ -56,11 +56,15 @@ Source of distances between stations (in miles).
 
 ### Speed
 
-Speed of the train in *miles per hour* (default: 30).
+Speed of the train in *miles per hour* (default: *30*).
 
 ### Layover
 
-Time of layover at each station in hours (default: 1, number can be fractional).
+Time of layover at each station in hours (default: *1*, number can be fractional).
+
+### Color prices
+
+Whether to color prices with their corresponding colors (like on the image, default: *false*).
 
 ### Custom prices
 
