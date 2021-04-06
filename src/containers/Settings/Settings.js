@@ -10,7 +10,7 @@ import './Settings.scss';
 
 import { settingsSelector, costModeChange, distanceSourceChange, speedChange, layoverChange, setCustomRails, setCustomPrices, ColorPricesChange } from '../../slices/settings';
 
-const Settings = props => {
+const Settings = () => {
 
   const dispatch = useDispatch();
   const { costMode, distanceSource, speed, layover, customRails, customPrices, colorPrices } = useSelector(settingsSelector);
@@ -19,7 +19,7 @@ const Settings = props => {
   const onDistanceSourceChange = event => dispatch(distanceSourceChange(event.target.value));
   const onSpeedChange = event => dispatch(speedChange(event.target.value));
   const onLayoverChange = event => dispatch(layoverChange(event.target.value));
-  const onColorPricesChange = event => dispatch(ColorPricesChange(!colorPrices));
+  const onColorPricesChange = () => dispatch(ColorPricesChange(!colorPrices));
 
   const [customPricesChanges, setCustomPricesChanges] = useState(JSON.stringify(customPrices, null, 1))
   const onCustomPricesChange = event => setCustomPricesChanges(event.target.value);

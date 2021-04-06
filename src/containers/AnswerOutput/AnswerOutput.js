@@ -6,7 +6,7 @@ import './AnswerOutput.scss';
 import { mainSelector } from '../../slices/main';
 import { settingsSelector } from '../../slices/settings';
 
-const AnswerOutput = props => {
+const AnswerOutput = () => {
 
   const { miles, path, basePrices } = useSelector(mainSelector);
   const { costMode, speed, layover, customPrices, colorPrices } = useSelector(settingsSelector);
@@ -17,7 +17,8 @@ const AnswerOutput = props => {
   const minutes = Math.ceil((time - Math.trunc(time)) * 60);
 
   const combinedPrices = {...basePrices, ...customPrices}
-  const methods = Object.keys(combinedPrices);
+  // const methods = Object.keys(combinedPrices);
+  // console.log(combinedPrices)
 
   const coloredPricesStyle = p => {
 
@@ -51,25 +52,23 @@ const AnswerOutput = props => {
   }
 
   const renderCost = method => {
-    if (costMode === 'All' || method === costMode ) {
-      return (
-        <li>{method}:
-          <ul>
-            {combinedPrices[method].map(style => {
-              const baseCost = returnBasePrice(style);
-              const separatedCost = returnSeparatedCost(baseCost);
-              return (
-                <li>
-                  <span className='answer-category-italic'>{style.tier + ': '}</span>
-                  <span className='answer-cost-bold' style={coloredPricesStyle('gold')}>{separatedCost[0] ? separatedCost[0] + 'gp ' : ''}</span>
-                  <span className='answer-cost-bold' style={coloredPricesStyle('silver')}>{separatedCost[1] ? separatedCost[1] + 'sp ' : ''}</span>
-                  <span className='answer-cost-bold' style={coloredPricesStyle('copper')}>{separatedCost[2] ? separatedCost[2] + 'cp ' : ''}</span>
-                </li>
-              )})}
-          </ul>
-        </li>
-      )
-   }
+    return (
+      <li>{method}:
+        <ul>
+          {combinedPrices[method].map((style, i) => {
+            const baseCost = returnBasePrice(style);
+            const separatedCost = returnSeparatedCost(baseCost);
+            return (
+              <li key={i}>
+                <span className='answer-category-italic'>{style.tier + ': '}</span>
+                <span className='answer-cost-bold' style={coloredPricesStyle('gold')}>{separatedCost[0] ? separatedCost[0] + 'gp ' : ''}</span>
+                <span className='answer-cost-bold' style={coloredPricesStyle('silver')}>{separatedCost[1] ? separatedCost[1] + 'sp ' : ''}</span>
+                <span className='answer-cost-bold' style={coloredPricesStyle('copper')}>{separatedCost[2] ? separatedCost[2] + 'cp ' : ''}</span>
+              </li>
+            )})}
+        </ul>
+      </li>
+    )
   }
   
   return (
@@ -82,13 +81,14 @@ const AnswerOutput = props => {
       {layover ? '(with ' + layover + ' hour(s) layover at each station)' : ''}
       </div>
 
-      <div className='answer-block answer-cost'>Cost: 
+      <div className='answer-block answer-cost'>Cost:
         <ul>
-          {methods.map(method => renderCost(method))}
+          {(costMode === 'All' || costMode !== "Custom") && Object.keys(basePrices).map(method => renderCost(method))}
+          {(costMode === 'All' || costMode === "Custom") && Object.keys(customPrices).map(method => renderCost(method))}
         </ul>
       </div>
 
-      <div className='answer-block answer-path'>Stations: 
+      <div className='answer-block answer-path'>Stations:
         <ul>
           {path.map(item => <li key={item}>{item[0]}</li>)}
         </ul>

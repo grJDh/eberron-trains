@@ -105,6 +105,7 @@ const App = () => {
     let optimalPath = [[finish]];
     let parent = path[finish];
 
+    // eslint-disable-next-line
     for (let i in path) {
       if (parent) {
         optimalPath.push([parent]);
@@ -112,7 +113,8 @@ const App = () => {
       }
     }
     optimalPath.reverse();
-
+    
+    // console.log(optimalPath);
     // optimalPath[0][0] = '0:00'
 
     // for (let i = 1; i < optimalPath; i++) {
@@ -144,11 +146,12 @@ const App = () => {
 
   useEffect(() => {
     if (startStation !== '' && finishStation !== '') letsTravel();
-  }, [customPrices, customRails]);
+    // eslint-disable-next-line
+  }, [customPrices, customRails, finishStation, startStation]);
 
   return (
     <main>
-      <SearchForm stations={stations} letsTravel={letsTravel}/>
+      <SearchForm stations={stations} />
       {error ? <span className='error-message'>One or both stations doesn't exist</span> : ''}
       {miles && !error ? <AnswerOutput /> : ''}
       <Settings />

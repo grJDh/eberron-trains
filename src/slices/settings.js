@@ -51,7 +51,6 @@ const settingsSlice = createSlice({
       state.customPrices = payload;
     },
     ColorPricesChange: (state, { payload }) => {
-      console.log(payload)
       state.colorPrices = payload;
     },
   }

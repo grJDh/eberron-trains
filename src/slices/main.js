@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // const placeToLocalStorage = (name, item) => localStorage.setItem(name, JSON.stringify(item));
 
 const capitalize = text => {
+  // eslint-disable-next-line
   if (!text == 0) {
     const splitted = text.split(' ');
     const newText = splitted.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
